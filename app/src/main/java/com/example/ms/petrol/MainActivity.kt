@@ -21,17 +21,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         Parse.initialize(Parse.Configuration.Builder(this).
-                applicationId("android123").
-                server("http://10.10.10.55:1337/parse").
-                clientKey("startv123").build())
+                applicationId("m4A6Eq9GhmXp6nSNBdEhRZUOvMcsxO23NKl2hf3Q").
+                server("https://parseapi.back4app.com/").
+                clientKey("rCXV2nCQWZSlwAnvHiGjC9roBgZS4hP4LGhHKbz1").build())
 
-        ParseUser.logInInBackground("mayur","startv123", LogInCallback({user: ParseUser?, e: ParseException? ->
-            if(user != null){
-                println("Signed In")
-            }else{
-                println(e?.printStackTrace())
+//        ParseUser.logInInBackground("bogus","startv123", LogInCallback({user: ParseUser?, e: ParseException? ->
+//            if(user != null){
+//                println("Signed In")
+//            }else{
+//                println(e?.printStackTrace())
+//            }
+//        }))
+
+        var user = ParseUser.getCurrentUser()
+        if(user == null){
+            println("not logged in")
+        }
+        else{
+            println("user is logged in please use session callback")
+        }
+        ParseSession.getCurrentSessionInBackground(GetCallback { `object`,e ->
+            if(`object` != null){
+                println("Sessin Exists")
             }
-        }))
+            else{
+                println(e.printStackTrace())
+            }
+        })
 
 
         setContentView(R.layout.activity_main)
