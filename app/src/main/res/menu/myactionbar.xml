@@ -10,8 +10,16 @@
         android:background="@drawable/selectorbotnav"/>
 
     <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_settings"
+    <item
+        android:id="@+id/action_settings"
         android:title="Settings"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+    >
+
+        <item
+            android:title="Logout"
+            android:id="@+id/action_logout"/>
+
+    </item>
 
 </menu>

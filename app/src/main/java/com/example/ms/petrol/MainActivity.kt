@@ -1,6 +1,7 @@
 package com.example.ms.petrol
 
 import android.app.Fragment
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -20,10 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Parse.initialize(Parse.Configuration.Builder(this).
-                applicationId("m4A6Eq9GhmXp6nSNBdEhRZUOvMcsxO23NKl2hf3Q").
-                server("https://parseapi.back4app.com/").
-                clientKey("rCXV2nCQWZSlwAnvHiGjC9roBgZS4hP4LGhHKbz1").build())
+
 
 //        ParseUser.logInInBackground("bogus","startv123", LogInCallback({user: ParseUser?, e: ParseException? ->
 //            if(user != null){
@@ -33,21 +31,21 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }))
 
-        var user = ParseUser.getCurrentUser()
-        if(user == null){
-            println("not logged in")
-        }
-        else{
-            println("user is logged in please use session callback")
-        }
-        ParseSession.getCurrentSessionInBackground(GetCallback { `object`,e ->
-            if(`object` != null){
-                println("Sessin Exists")
-            }
-            else{
-                println(e.printStackTrace())
-            }
-        })
+//        var user = ParseUser.getCurrentUser()
+//        if(user == null){
+//            println("not logged in")
+//        }
+//        else{
+//            println("user is logged in please use session callback")
+//        }
+//        ParseSession.getCurrentSessionInBackground(GetCallback { `object`,e ->
+//            if(`object` != null){
+//                println("Sessin Exists")
+//            }
+//            else{
+//                println(e.printStackTrace())
+//            }
+//        })
 
 
         setContentView(R.layout.activity_main)
@@ -77,6 +75,13 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.action_logout -> logout()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
 
     fun replaceFrag(fragment: Fragment){
@@ -84,6 +89,15 @@ class MainActivity : AppCompatActivity() {
         fragManager.setCustomAnimations(R.animator.enter,R.animator.leave)
         fragManager.replace(R.id.mainfrag,fragment);
         fragManager.commit()
+    }
+
+
+    fun logout(){
+        ParseUser.logOutInBackground(LogOutCallback {
+            var loginIntent = Intent(this,loginActivity::class.java)
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(loginIntent)
+        })
     }
 
 
